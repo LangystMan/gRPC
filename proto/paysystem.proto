@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto;
+
+service PaymentOrchestrator {
+  rpc DoAcqTransaction(RequestPaymentOnline) returns (ReplyProcessed);
+}
+
+message ReplyProcessed {
+  int32  Errno = 1;
+  string Error = 2;
+}
+
+message RequestPaymentOnline {
+  uint64 Pos = 1;
+  string Pan = 2;
+  uint64 Amount = 3;
+}

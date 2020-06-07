@@ -1,7 +1,9 @@
 syntax = "proto3";
 
+// Собирать из этой директории (или из любой другой, но с флагом --proto_path / -I): protoc --twirp_out=. --go_out=. .\Name.proto
+
 package proto;
-option go_package = "./proto";
+option go_package = "./orchestrator"; // Мсето росположения pb.go и twirp.go
 
 service PaymentOrchestrator {
   rpc DoAcqTransaction(RequestPaymentOnline) returns (ReplyProcessed);

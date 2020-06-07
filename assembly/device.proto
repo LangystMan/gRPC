@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-// Собирать из этой директории (или из любой другой, но с флагом --proto_path / -I): protoc --twirp_out=. .\Name.proto
+// Собирать из этой директории (или из любой другой, но с флагом --proto_path / -I): protoc --twirp_out=. --go_out=. .\Name.proto
 
 package proto;
 option go_package = "./device"; // Мсето росположения pb.go и twirp.go
@@ -10,13 +10,13 @@ service Device {
 }
 
 message ReplyDeviceRegistration {
-  string UUID = 1;
-  string PubKey = 2;
-  int32  Errno = 3;
-  string Error = 4;
+  string uuid = 1;
+  string pubkey = 2;
+  int32  errno = 3;
+  string error = 4;
 }
 
 message RequestDeviceRegistration {
-  uint64 Phone = 1;
-  string DeviceName = 2;
+  uint64 phone = 1;
+  string devicename = 2;
 }

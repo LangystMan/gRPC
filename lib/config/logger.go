@@ -58,7 +58,7 @@ func LoadLogger() zerolog.Logger {
 	}
 
 	logWriter.FormatFieldName = func(i interface{}) string {
-		return fmt.Sprintf("%s = ", i)
+		return fmt.Sprintf("%s:", i)
 	}
 
 	logWriter.FormatFieldValue = func(i interface{}) string {

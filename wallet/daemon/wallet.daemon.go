@@ -20,13 +20,9 @@ func main() {
 		log.Panic().Msg(err.Error())
 	}
 
-	if err := set.ConnectGORM(); err != nil {
-		log.Panic().Msg(err.Error())
-	}
-
 	srv := api.PbWalletDaemon{}
 	WalletServer := pb.NewDeviceServer(&srv, nil)
-	wrapped := lib.WithReadHeader(WalletServer)
+	wrapped := lib.WithReadHeader(WalletServer, set)
 
 	err = http.ListenAndServe(":9000", wrapped)
 	if err != nil {

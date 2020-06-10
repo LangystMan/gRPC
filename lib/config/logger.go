@@ -27,24 +27,23 @@ func LoadLogger() zerolog.Logger {
 
 	logWriter.FormatLevel = func(i interface{}) string {
 		if l, ok := i.(string); ok {
-			l = strings.ToUpper(l)
 			switch l {
-			case "TRACE":
-				l = Colorize(l, Magenta)
-			case "DEBUG":
-				l = Colorize(l, Green)
-			case "INFO":
-				l = Colorize(l, Green)
-			case "WARN":
-				l = Colorize(l, Yellow)
-			case "ERROR":
-				l = Colorize(Colorize(l, Red), Bold)
-			case "FATAL":
-				l = Colorize(Colorize(l, Red), Bold)
-			case "PANIC":
-				l = Colorize(Colorize(l, Red), Bold)
+			case "trace":
+				l = Colorize("TRC", Magenta)
+			case "debug":
+				l = Colorize("DBG", Green)
+			case "info":
+				l = Colorize("INF", Green)
+			case "warn":
+				l = Colorize("WRN", Yellow)
+			case "error":
+				l = Colorize(Colorize("ERR", Red), Bold)
+			case "fatal":
+				l = Colorize(Colorize("FTL", Red), Bold)
+			case "panic":
+				l = Colorize(Colorize("PNC", Red), Bold)
 			default:
-				l = Colorize(l, Bold)
+				l = Colorize("???", Bold)
 			}
 
 			return fmt.Sprintf("| %s |", l)

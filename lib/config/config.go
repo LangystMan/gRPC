@@ -5,8 +5,13 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/rs/zerolog/log"
 	"gopkg.in/ini.v1"
 )
+
+func init() {
+	log.Logger = LoadLogger()
+}
 
 type Setup struct {
 	cfg  *ini.File
@@ -45,7 +50,24 @@ func (obj *Setup) LoadConfig(file string) error {
 		return err
 	}
 
+	log.Info().Msg("SUCCESS LOAD CONFIGURATION FILE")
+
 	return nil
+}
+
+func (obj *Setup) GetAddress() (string, error) {
+
+	host, err := obj.cfg.Section("api").GetKey("host")
+	if err != nil {
+		return "", err
+	}
+
+	port, err := obj.cfg.Section("api").GetKey("port")
+	if err != nil {
+		return "", err
+	}
+
+	return host.String() + ":" + port.String(), nil
 }
 
 func (obj *Setup) ConnectGORM() error {
@@ -101,8 +123,7 @@ func (obj *Setup) ConnectGORM() error {
 
 		obj.gorm.SingularTable(true)
 
-		log := LoadLogger()
-		log.Info().Msg("CONNECTED TO DATABASE")
+		log.Info().Msg("SUCCESS CONNECTED TO DATABASE")
 
 	}
 

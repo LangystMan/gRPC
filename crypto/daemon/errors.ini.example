@@ -1,0 +1,7 @@
+[ru]
+400: Ошибка валидации
+401: Некорректная ЭЦП запроса
+
+[en]
+400: Validation error
+401: Invalid EDS of the request

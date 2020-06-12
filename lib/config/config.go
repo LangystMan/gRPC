@@ -27,15 +27,33 @@ type Sql struct {
 	Database string `ini:"database"`
 }
 
-func LoadSetup(file string) (*Setup, error) {
+func LoadSetup(configFile string, errorsFile string) (*Setup, *ErrorsIni, error) {
 
 	set := Setup{}
-	err := set.LoadConfig(file)
+	err := set.LoadConfig(configFile)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return &set, nil
+	ctx, err := loadErrorsIniFile(errorsFile)
+	if err != nil {
+		log.Error().Msg("Unable load errors.ini file: " + err.Error())
+	} else {
+		log.Info().Msg("Success load errors.ini file")
+	}
+
+	return &set, ctx, nil
+}
+
+func loadErrorsIniFile(file string) (*ErrorsIni, error) {
+
+	var errFile ErrorsIni
+	errorsFile, err := ini.Load(file)
+	if err != nil {
+		return &errFile, err
+	}
+
+	return ReadErrorsIniFile(errorsFile)
 }
 
 func (obj *Setup) LoadConfig(file string) error {
@@ -50,7 +68,7 @@ func (obj *Setup) LoadConfig(file string) error {
 		return err
 	}
 
-	log.Info().Msg("SUCCESS LOAD CONFIGURATION FILE")
+	log.Info().Msg("Success load " + file + " file")
 
 	return nil
 }
@@ -123,7 +141,7 @@ func (obj *Setup) ConnectGORM() error {
 
 		obj.gorm.SingularTable(true)
 
-		log.Info().Msg("SUCCESS CONNECTED TO DATABASE")
+		log.Info().Msg("Success connect to database")
 
 	}
 

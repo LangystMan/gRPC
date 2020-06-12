@@ -2,10 +2,9 @@ syntax = "proto3";
 
 // Собирать из этой директории (или из любой другой, но с флагом --proto_path / -I): protoc --twirp_out=. --go_out=. .\Name.proto
 
-package proto;
-option go_package = "./device"; // Мсето росположения pb.go и twirp.go
+option go_package = "./api"; // Мсето росположения pb.go и twirp.go
 
-service Device {
+service Api {
   rpc Registration(RequestDeviceRegistration) returns (ReplyDeviceRegistration);
 }
 

@@ -1,10 +1,10 @@
 package main
 
 import (
-	pb "gRPC/assembly/device"
+	pb "gRPC/assembly/api"
+	daemon "gRPC/crypto/api"
 	"gRPC/lib/api"
 	cfg "gRPC/lib/config"
-	daemon "gRPC/wallet/api"
 	"github.com/rs/zerolog/log"
 	"net/http"
 )
@@ -15,7 +15,7 @@ func init() {
 
 func main() {
 
-	set, err := cfg.LoadSetup("wallet.ini")
+	set, errFile, err := cfg.LoadSetup("cryptopass.ini", "errors.ini")
 	if err != nil {
 		log.Panic().Msg(err.Error())
 	}
@@ -26,8 +26,8 @@ func main() {
 	}
 
 	srv := daemon.ApiDaemon{}
-	Server := pb.NewDeviceServer(&srv, nil)
-	wrapped := api.WithCryptoPassHandler(Server, set)
+	server := pb.NewApiServer(&srv, nil)
+	wrapped := api.WithCryptoPassHandler(server, errFile)
 
 	err = http.ListenAndServe(addr, wrapped)
 	if err != nil {

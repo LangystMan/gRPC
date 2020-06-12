@@ -3,14 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	pb "gRPC/assembly/device"
+	pb "gRPC/assembly/api"
 	"log"
 	"net/http"
 )
 
 func main() {
 
-	client := pb.NewDeviceJSONClient("http://localhost:9000", &http.Client{})
+	client := pb.NewApiJSONClient("http://localhost:9000", &http.Client{})
 
 	hat, err := client.Registration(context.Background(), &pb.RequestDeviceRegistration{Phone: 123123, Devicename: "Testname"})
 	if err != nil {
